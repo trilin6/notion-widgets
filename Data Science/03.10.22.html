@@ -1,0 +1,45 @@
+<html>
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://developers.panopto.com/scripts/embedapi.min.js"
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var embedApi;
+        function onPanoptoEmbedApiReady()
+        {
+            embedApi = new EmbedApi("player", {
+                width: "750",
+                height: "422",
+                serverName: "durham.cloud.panopto.eu",
+                sessionId: "5628964b-db7e-4b40-a6c1-af2000843243",
+                videoParams: {
+                    "interactivity": "none",
+                    "showtitle": "false"
+                },
+                events: {
+                    "onIframeReady": onPanoptoIframeReady,
+                    "onReady": onPanoptoVideoReady,
+                    "onStateChange": onPanoptoStateUpdate
+                }
+            });
+        }
+        function onPanoptoIframeReady()
+        {
+            embedApi.loadVideo();
+        }
+        function onPanoptoVideoReady()
+        {
+            embedApi.seekTo(0);
+        }
+         function onPanoptoStateUpdate(state)
+        {
+            if (state === PlayerState.Playing)
+            {
+                embedApi.setVolume(0.3);
+                embedApi.setPlaybackRate(2);
+            }
+        }
+    </script>
+    <div id="player"></div>
+</html>
